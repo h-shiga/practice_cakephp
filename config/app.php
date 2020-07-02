@@ -276,7 +276,7 @@ return [
             'host' => 'localhost',
             'username' => 'root',
             'password' => '',
-            'database' => 'cake_cms',
+            'database' => 'trial',
             'encoding' => 'utf8mb4',
             'timezone' => 'UTC',
             'cacheMetadata' => true,
