@@ -25,10 +25,15 @@ class BooksFixture extends TestFixture
         'country_code' => ['type' => 'char', 'length' => 2, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '国コード', 'precision' => null],
         '_indexes' => [
             'test_idx' => ['type' => 'index', 'columns' => ['book_category_id'], 'length' => []],
+            'test2_idx' => ['type' => 'index', 'columns' => ['country_code'], 'length' => []],
+            'test4_idx' => ['type' => 'index', 'columns' => ['creator_id'], 'length' => []],
         ],
         '_constraints' => [
             'primary' => ['type' => 'primary', 'columns' => ['id'], 'length' => []],
+            'test4' => ['type' => 'foreign', 'columns' => ['creator_id'], 'references' => ['creators', 'id'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
             'test' => ['type' => 'foreign', 'columns' => ['book_category_id'], 'references' => ['book_categories', 'id'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
+            'test2' => ['type' => 'foreign', 'columns' => ['country_code'], 'references' => ['countries', 'code'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
+            'test3' => ['type' => 'foreign', 'columns' => ['id'], 'references' => ['book_begin_texts', 'id'], 'update' => 'noAction', 'delete' => 'noAction', 'length' => []],
         ],
         '_options' => [
             'engine' => 'InnoDB',

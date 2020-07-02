@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -56,13 +57,16 @@ class BooksTable extends Table
             'joinType' => 'INNER',
         ]);
         $this->hasMany('BookBeginTexts', [
-            'foreignKey' => 'book_id',
+            'foreignKey' => 'id',
         ]);
         $this->hasMany('BookCharacters', [
             'foreignKey' => 'book_id',
         ]);
         $this->hasMany('QuestionaireReadRelationalBooks', [
             'foreignKey' => 'book_id',
+        ]);
+        $this->hasMany('Countries', [
+            'foreignKey' => 'code',
         ]);
     }
 
