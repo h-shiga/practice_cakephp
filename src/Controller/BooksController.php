@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\AppController;
-use App\Model\Entity\BookBeginTextRuby;
 use Cake\ORM\TableRegistry;
 
 /**
@@ -32,17 +31,25 @@ class BooksController extends AppController
     {
         $this->paginate = ['contain' => [
             'BookBeginTexts' => ['BookBeginTextRubies'], 'BookCategories', 'BookCharacters',
-            'Countries', 'Creators', 'QuestionaireReadRelationalBooks'
+            'Countries', 'Creators', 'QuestionaireReadRelationalBooks' => ['Questionnaires' => ['Genders'],],
         ]];
         $books = $this->paginate($this->Books);
+        debug($books->first()->publication_date['time']);
         $genders = $this->Genders->find();
         $before = array();
         $after = array();
         foreach ($books->first()->book_begin_texts[0]->book_begin_text_rubies as $book) {
-            array_push($before, $book->code);
+            array_push($before, '/' . $book->code . '/');
             array_push($after, $book->ruby);
         }
         $this->set(compact('books', 'genders', 'before', 'after'));
+    }
+
+    public function questionnaire()
+    {
+        $this->paginate = ['contain' => ['QuestionaireReadRelationalBooks' => ['Questionnaires' => ['Genders'],],]];
+        $books = $this->paginate($this->Books);
+        $this->set(compact('books'));
     }
 
     /**

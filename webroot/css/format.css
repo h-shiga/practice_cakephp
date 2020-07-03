@@ -52,9 +52,10 @@
 }
 
 .content-table {
-  width: 250px;
+  width: 300px;
   height: 100px;
   border: 2px;
+  border: 1px;
   border-style: solid;
   border-color:  gray;
 }
@@ -65,7 +66,7 @@
   }
   .content-table th {
     font-weight: bold;
-    background-color: green;
+    background-color: #DDFFDD;
   }
 
 .text-strong {
@@ -88,6 +89,6 @@ a:hover {
 }
 
 img {
-  width: 260px;
-  height: 390px;
+  width: 450px;
+  height: 600px;
 }

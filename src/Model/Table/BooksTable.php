@@ -17,19 +17,6 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\BookCharactersTable&\Cake\ORM\Association\HasMany $BookCharacters
  * @property \App\Model\Table\QuestionaireReadRelationalBooksTable&\Cake\ORM\Association\HasMany $QuestionaireReadRelationalBooks
  *
- * @method \App\Model\Entity\Book newEmptyEntity()
- * @method \App\Model\Entity\Book newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Book[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Book get($primaryKey, $options = [])
- * @method \App\Model\Entity\Book findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Book patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Book[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Book|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Book saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Book[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Book[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Book[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Book[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
  */
 class BooksTable extends Table
 {
