@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -46,7 +47,6 @@ class BookBeginTextsTable extends Table
 
         $this->belongsTo('Books', [
             'foreignKey' => 'book_id',
-            'joinType' => 'INNER',
         ]);
         $this->hasMany('BookBeginTextRubies', [
             'foreignKey' => 'book_begin_text_id',

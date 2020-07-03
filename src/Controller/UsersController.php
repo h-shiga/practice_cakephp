@@ -25,7 +25,6 @@ class UsersController extends AppController
     {
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
-        debug($result);
         // POST, GET を問わず、ユーザーがログインしている場合はリダイレクトします
         if ($result->isValid()) {
             // redirect to /articles after login success

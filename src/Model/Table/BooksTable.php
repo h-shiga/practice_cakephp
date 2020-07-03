@@ -10,13 +10,12 @@ use Cake\Validation\Validator;
 
 /**
  * Books Model
- *
  * @property \App\Model\Table\BookCategoriesTable&\Cake\ORM\Association\BelongsTo $BookCategories
+ * @property \App\Model\Table\CountriesTable&\Cake\ORM\Association\BelongsTo $Countries
  * @property \App\Model\Table\CreatorsTable&\Cake\ORM\Association\BelongsTo $Creators
  * @property \App\Model\Table\BookBeginTextsTable&\Cake\ORM\Association\HasMany $BookBeginTexts
  * @property \App\Model\Table\BookCharactersTable&\Cake\ORM\Association\HasMany $BookCharacters
  * @property \App\Model\Table\QuestionaireReadRelationalBooksTable&\Cake\ORM\Association\HasMany $QuestionaireReadRelationalBooks
- *
  */
 class BooksTable extends Table
 {
@@ -36,11 +35,12 @@ class BooksTable extends Table
 
         $this->belongsTo('BookCategories', [
             'foreignKey' => 'book_category_id',
-            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Countries', [
+            'foreignKey' => 'country_code',
         ]);
         $this->belongsTo('Creators', [
             'foreignKey' => 'creator_id',
-            'joinType' => 'INNER',
         ]);
         $this->hasMany('BookBeginTexts', [
             'foreignKey' => 'id',
@@ -50,9 +50,6 @@ class BooksTable extends Table
         ]);
         $this->hasMany('QuestionaireReadRelationalBooks', [
             'foreignKey' => 'book_id',
-        ]);
-        $this->belongsTo('Countries', [
-            'foreignKey' => 'country_code',
         ]);
     }
 
@@ -100,6 +97,7 @@ class BooksTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->existsIn(['book_category_id'], 'BookCategories'));
+        $rules->add($rules->existsIn(['country_code'], 'Countries'));
         $rules->add($rules->existsIn(['creator_id'], 'Creators'));
 
         return $rules;

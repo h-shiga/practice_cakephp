@@ -28,10 +28,17 @@ class BooksController extends AppController
     public function index()
     {
         $this->paginate = ['contain' => ['Creators']];
-        $books = $this->paginate($this->Books);
+        $books = $this->paginate($this->Books->find());
+        if ($this->request->is('post')) {
+            $find = $this->request->getData('find');
+            $books = $this->paginate($this->Books->find()->where([
+                'OR' => [
+                    ['Books.name like ' => '%' . $find . '%'],
+                    ['publication_date like' => '%' . $find . '%'],
+                ],
+            ]));
+        }
         $this->set(compact('books'));
-        $title = $this->Books->find('list');
-        $this->set(compact('title'));
     }
 
     /**
@@ -42,18 +49,22 @@ class BooksController extends AppController
     public function cat()
     {
         $this->paginate = ['contain' => [
-            'BookBeginTexts' => ['BookBeginTextRubies'], 'BookCategories', 'BookCharacters',
-            'Countries', 'Creators'
+            'BookBeginTexts' => ['BookBeginTextRubies'],
+            'BookCategories',
+            'BookCharacters',
+            'Countries',
+            'Creators',
         ]];
-        $books = $this->paginate($this->Books);
+        $books = $this->paginate($this->Books->find());
+        $bookIntroductions = $books->first();
         $genders = $this->Genders->find();
-        $before = array();
-        $after = array();
-        foreach ($books->first()->book_begin_texts[0]->book_begin_text_rubies as $book) {
+        $before = [];
+        $after = [];
+        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after'));
+        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
     }
 
     /**
@@ -64,12 +75,85 @@ class BooksController extends AppController
     public function son()
     {
         $this->paginate = ['contain' => [
-            'BookBeginTexts' => ['BookBeginTextRubies'], 'BookCategories', 'BookCharacters',
-            'Countries', 'Creators'
+            'BookBeginTexts' => ['BookBeginTextRubies'],
+            'BookCategories',
+            'BookCharacters',
+            'Countries',
+            'Creators',
         ]];
-        $books = $this->paginate($this->Books);
-        $this->set(compact('books'));
-        debug($books);
+        $books = $this->paginate($this->Books->find());
+        $bookIntroductions = $books->toArray()[1];
+        $genders = $this->Genders->find();
+        $before = [];
+        $after = [];
+        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+            array_push($before, '/※' . $book->code . '/');
+            array_push($after, $book->ruby);
+        }
+        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+    }
+
+    public function heart()
+    {
+        $this->paginate = ['contain' => [
+            'BookBeginTexts' => ['BookBeginTextRubies'],
+            'BookCategories',
+            'BookCharacters',
+            'Countries',
+            'Creators',
+        ]];
+        $books = $this->paginate($this->Books->find());
+        $bookIntroductions = $books->toArray()[2];
+        $genders = $this->Genders->find();
+        $before = [];
+        $after = [];
+        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+            array_push($before, '/※' . $book->code . '/');
+            array_push($after, $book->ruby);
+        }
+        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+    }
+
+    public function daisies()
+    {
+        $this->paginate = ['contain' => [
+            'BookBeginTexts' => ['BookBeginTextRubies'],
+            'BookCategories',
+            'BookCharacters',
+            'Countries',
+            'Creators',
+        ]];
+        $books = $this->paginate($this->Books->find());
+        $bookIntroductions = $books->toArray()[3];
+        $genders = $this->Genders->find();
+        $before = [];
+        $after = [];
+        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+            array_push($before, '/※' . $book->code . '/');
+            array_push($after, $book->ruby);
+        }
+        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+    }
+
+    public function lemon()
+    {
+        $this->paginate = ['contain' => [
+            'BookBeginTexts' => ['BookBeginTextRubies'],
+            'BookCategories',
+            'BookCharacters',
+            'Countries',
+            'Creators',
+        ]];
+        $books = $this->paginate($this->Books->find());
+        $bookIntroductions = $books->last();
+        $genders = $this->Genders->find();
+        $before = [];
+        $after = [];
+        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+            array_push($before, '/※' . $book->code . '/');
+            array_push($after, $book->ruby);
+        }
+        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
     }
 
     public function questionnaire()
