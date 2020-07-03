@@ -83,6 +83,10 @@ class BooksTable extends Table
             ->maxLength('country_code', 2)
             ->allowEmptyString('country_code');
 
+        $validator
+            ->scalar('e_name')
+            ->maxLength('e_name', 50);
+
         return $validator;
     }
 

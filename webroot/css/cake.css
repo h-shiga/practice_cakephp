@@ -55,7 +55,7 @@ th a,
 body {
     background: #f5f7fa;
 }
-.content {
+.contents {
     padding: 2rem;
     background: #ffffff;
     border-radius: 0.4rem;
@@ -101,7 +101,7 @@ th {
 }
 
 /* View action */
-.view.content .text {
+.view.contents .text {
     margin-top: 1.2rem;
 }
 .related {

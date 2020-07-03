@@ -23,26 +23,50 @@ class BooksController extends AppController
     }
 
     /**
+     * 
+     */
+    public function index()
+    {
+        $books = $this->paginate($this->Books);
+        $this->set(compact('books'));
+    }
+
+    /**
      * Index method
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
-    public function index()
+    public function cat()
     {
         $this->paginate = ['contain' => [
             'BookBeginTexts' => ['BookBeginTextRubies'], 'BookCategories', 'BookCharacters',
-            'Countries', 'Creators', 'QuestionaireReadRelationalBooks' => ['Questionnaires' => ['Genders'],],
+            'Countries', 'Creators'
         ]];
         $books = $this->paginate($this->Books);
-        debug($books->first()->publication_date['time']);
         $genders = $this->Genders->find();
         $before = array();
         $after = array();
         foreach ($books->first()->book_begin_texts[0]->book_begin_text_rubies as $book) {
-            array_push($before, '/' . $book->code . '/');
+            array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
         $this->set(compact('books', 'genders', 'before', 'after'));
+    }
+
+    /**
+     * Index method
+     *
+     * @return \Cake\Http\Response|null|void Renders view
+     */
+    public function son()
+    {
+        $this->paginate = ['contain' => [
+            'BookBeginTexts' => ['BookBeginTextRubies'], 'BookCategories', 'BookCharacters',
+            'Countries', 'Creators'
+        ]];
+        $books = $this->paginate($this->Books);
+        $this->set(compact('books'));
+        debug($books);
     }
 
     public function questionnaire()
