@@ -1,3 +1,7 @@
+#cat{
+  order: 1;
+}
+
 #cover {
   order: 2;
 }
@@ -8,10 +12,6 @@
 
 #heart{
   order: 3;
-}
-
-#iamcat{
-  order: 1;
 }
 
 #information {

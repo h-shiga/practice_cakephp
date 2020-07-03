@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -44,4 +45,8 @@ class Book extends Entity
         'book_characters' => true,
         'questionaire_read_relational_books' => true,
     ];
+
+    public $filterArgs = array(
+        'name' => array('type' => 'like'),
+    );
 }
