@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -40,6 +41,14 @@ class QuestionnairesTable extends Table
         $this->setTable('questionnaires');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
+
+        $this->hasMany('QuestionaireReadRelationalBooks', [
+            'foreignKey' => 'questionaire_id',
+        ]);
+
+        $this->belongsTo('Genders', [
+            'foreignKey' => 'answerer_gender_code',
+        ]);
     }
 
     /**

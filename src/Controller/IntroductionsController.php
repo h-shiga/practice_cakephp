@@ -18,14 +18,15 @@ class IntroductionsController extends AppController
     public function index()
     {
         $books = TableRegistry::getTableLocator()->get('Books')->find()
-            ->contain(['BookBeginTexts'])->contain(['BookCategories'])->contain(['BookCharacters'])->contain(['Countries'])->contain(['Creators']);
+            ->contain(['BookBeginTexts', 'BookCategories', 'BookCharacters', 'Countries', 'Creators']);
         $this->set('books', $books);
-        $books->enableHydration();
-        debug($books->first()->name);
-        debug($books->first()->book_begin_texts);
-        debug($books);
-        foreach ($books as $book) {
-            debug($book);
+        $genders = TableRegistry::getTableLocator()->get('Genders')->find();
+        $this->set('genders', $genders);
+        //debug($books->first()->id);
+        debug($books->first());
+        //debug($books);
+        for ($i = 0; $i < 5; $i++) {
+            debug($books->first()->book_characters[$i]->name);
         }
     }
 }

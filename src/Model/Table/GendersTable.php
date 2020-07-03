@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -40,6 +41,10 @@ class GendersTable extends Table
         $this->setTable('genders');
         $this->setDisplayField('name');
         $this->setPrimaryKey('code');
+
+        $this->hasMany('Questionnaires', [
+            'foreignKey' => 'answerer_gender_code',
+        ]);
     }
 
     /**

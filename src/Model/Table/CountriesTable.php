@@ -1,15 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
-use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Countries Model
+ * 
+ * @property \App\Model\Table\BooksTable&\Cake\ORM\Association\BelongsTo $Books
  *
  * @method \App\Model\Entity\Country newEmptyEntity()
  * @method \App\Model\Entity\Country newEntity(array $data, array $options = [])
@@ -40,6 +41,10 @@ class CountriesTable extends Table
         $this->setTable('countries');
         $this->setDisplayField('name');
         $this->setPrimaryKey('code');
+
+        $this->hasMany('Books', [
+            'foreignKey' => 'country_code',
+        ]);
     }
 
     /**

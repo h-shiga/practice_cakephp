@@ -5,49 +5,88 @@
  * @var \App\Model\Entity\Book[]|\Cake\Collection\CollectionInterface $books
  */
 ?>
-<div class="books index content">
-    <?= $this->Html->link(__('New Book'), ['action' => 'add'], ['class' => 'button float-right']) ?>
-    <h3><?= __('Books') ?></h3>
-    <div class="table-responsive">
-        <table>
-            <thead>
-                <tr>
-                    <th><?= $this->Paginator->sort('id') ?></th>
-                    <th><?= $this->Paginator->sort('name') ?></th>
-                    <th><?= $this->Paginator->sort('book_category_id') ?></th>
-                    <th><?= $this->Paginator->sort('creator_id') ?></th>
-                    <th><?= $this->Paginator->sort('publication_date') ?></th>
-                    <th><?= $this->Paginator->sort('country_code') ?></th>
-                    <th class="actions"><?= __('Actions') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($books as $book) : ?>
+
+<html>
+
+<body>
+    <header id="title">
+        <h1>作品紹介</h1>
+    </header>
+    <div class="content">
+        <div class="content-cohesive" id="introduction">
+            <h2><?= $books->first()->name ?></h2>
+            <h3><?= str_replace($before, $after, $books->first()->book_begin_texts[0]->begin_text) ?></h3>
+        </div>
+        <div class="content-cohesive" id="information">
+            <table class="content-table">
+                <h3>情報</h3>
+                <thead class="content-table-information">
                     <tr>
-                        <td><?= $this->Number->format($book->id) ?></td>
-                        <td><?= h($book->name) ?></td>
-                        <td><?= $book->has('book_category') ? $this->Html->link($book->book_category->name, ['controller' => 'BookCategories', 'action' => 'view', $book->book_category->id]) : '' ?></td>
-                        <td><?= $book->has('creator') ? $this->Html->link($book->creator->name, ['controller' => 'Creators', 'action' => 'view', $book->creator->id]) : '' ?></td>
-                        <td><?= h($book->publication_date) ?></td>
-                        <td><?= h($book->country_code) ?></td>
-                        <td class="actions">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $book->id]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $book->id]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $book->id], ['confirm' => __('Are you sure you want to delete # {0}?', $book->id)]) ?>
-                        </td>
+                        <th>区分</th>
+                        <th>内容</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>著者</td>
+                        <td><?= $books->first()->creator->name ?></td>
+                    </tr>
+                    <tr>
+                        <td>発行年月日</td>
+                        <td><?= $books->first()->publication_date ?></td>
+                    </tr>
+                    <tr>
+                        <td>発行元</td>
+                        <td>服部書店</td>
+                    </tr>
+                    <tr>
+                        <td>ジャンル</td>
+                        <td><?= $books->first()->book_category->name ?></td>
+                    </tr>
+                    <tr>
+                        <td>国</td>
+                        <td><?= $books->first()->country->name ?></td>
+                    </tr>
+                    <tr>
+                        <td>言語</td>
+                        <td><?= $books->first()->country->name ?>語</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h4>登場人物</h4>
+            <div>
+                <ul class="character">
+                    <?php foreach ($books->first()->book_characters as $book) : ?>
+                        <?= $book->name ?>
+                    <?php endforeach; ?></ul>
+                <p><a href="https://www.aozora.gr.jp/cards/000148/files/789_14547.html">青空文庫</a></p>
+            </div>
+        </div>
+        <div class="content-cohesive" id="cover">
+            <h3>表紙</h3>
+            <?= $this->Html->image('book-cover-' . $books->first()->id . '.jpg'); ?>
+        </div>
+        <div class="content-cohesive" id="questionnaire">
+            <form method="POST" action="questionnaire.php">
+                <h3>アンケート</h3>
+                <p>・感想 </p>
+                <textarea name=" impression" rows="8" cols="40"></textarea>
+                <p>・読んだことはありますか？</p>
+                <input type="radio" name="read_question" value="1" checked="checked">はい
+                <input type="radio" name="read_question" value="2">いいえ
+                <p>・あなたの性別</p>
+                <select name="sex">
+                    <?php foreach ($genders as $gender) : ?>
+                        <?= '<option value=' . $gender->code . '>' . $gender->name . '</option>'; ?>
+                    <?php endforeach; ?></select>
+                <p>・他に読んだことがある夏目漱石の作品は？</p>
+                <select name="other_read" multiple size="3">
+                    <?php foreach ($books as $book) : ?>
+                        <?= '<option value = ' . $book->name . '>' . $book->name . '</option>' ?>
+                    <?php endforeach; ?></select>
+                <p><input type="submit" value="アンケートを送信"></p>
+            </form>
+        </div>
     </div>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
-    </div>
-</div>
+
+</html>

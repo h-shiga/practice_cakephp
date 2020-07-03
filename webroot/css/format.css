@@ -1,0 +1,93 @@
+#cover {
+  order: 2;
+}
+
+#daisies{
+  order: 4;
+}
+
+#heart{
+  order: 3;
+}
+
+#iamcat{
+  order: 1;
+}
+
+#information {
+  order: 3;
+}
+
+#introduction {
+  order: 1;
+}
+
+#lemon{
+  order: 5;
+}
+
+#questionnaire {
+  order: 4;
+}
+
+#son{
+  order: 2;
+}
+
+.character li {
+  display: inline;
+  margin: 5px;
+}
+
+.content {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.content-cohesive {
+  margin: 1em;
+  max-height: 40%;
+  width: 45%;
+}
+
+.content-table {
+  width: 250px;
+  height: 100px;
+  border: 2px;
+  border-style: solid;
+  border-color:  gray;
+}
+  .content-table tr,td {
+    border: 1px;
+    border-style: solid;
+    border-color: #e8e8e8;
+  }
+  .content-table th {
+    font-weight: bold;
+    background-color: green;
+  }
+
+.text-strong {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+  .text-color-red {
+    color: red;
+  }
+  .text-color-blue-underline {
+    color: blue;
+    text-decoration: underline;
+  }
+
+a {
+  text-decoration: none;
+}
+a:hover {
+	color: red;
+}
+
+img {
+  width: 260px;
+  height: 390px;
+}

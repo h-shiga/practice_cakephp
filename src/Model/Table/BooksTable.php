@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
@@ -65,8 +64,8 @@ class BooksTable extends Table
         $this->hasMany('QuestionaireReadRelationalBooks', [
             'foreignKey' => 'book_id',
         ]);
-        $this->hasMany('Countries', [
-            'foreignKey' => 'code',
+        $this->belongsTo('Countries', [
+            'foreignKey' => 'country_code',
         ]);
     }
 
