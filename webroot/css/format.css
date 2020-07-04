@@ -1,17 +1,9 @@
-#cat{
+#book-table{
   order: 1;
 }
 
 #cover {
   order: 2;
-}
-
-#daisies{
-  order: 4;
-}
-
-#heart{
-  order: 3;
 }
 
 #information {
@@ -22,16 +14,8 @@
   order: 1;
 }
 
-#lemon{
-  order: 5;
-}
-
 #questionnaire {
   order: 4;
-}
-
-#son{
-  order: 2;
 }
 
 .character li {

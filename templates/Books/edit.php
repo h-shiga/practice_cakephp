@@ -16,7 +16,7 @@
         <?= $this->Html->link('本一覧画面へ', ['action' => 'index']) ?>
     </header>
     <div class="content">
-        <div class="books form content">
+        <div id="book-table" class="books form content content-cohesive">
             <?= $this->Form->create($book) ?>
             <fieldset>
                 <?= $this->Form->control('name'); ?>
@@ -27,6 +27,9 @@
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
+        </div>
+        <div id="cover" class="content-cohesive">
+            <?= $this->Html->image('book-cover-' . $book->id . '.jpg'); ?>
         </div>
     </div>
 </body>

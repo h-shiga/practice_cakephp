@@ -53,7 +53,7 @@
             <?= $this->Form->create($questions) ?>
             <?= $this->Form->control('book_id', ['type' => 'hidden', 'value' => $books->id]) ?>
             <?= $this->Form->control('book_name', ['type' => 'hidden', 'value' => $books->name]) ?>
-            <?= $this->Form->control('感想', ['name' => 'impression',]) ?>
+            <?= $this->Form->control('感想', ['name' => 'impression', 'type' => 'textarea']) ?>
             <?= $this->Form->control('読んだことはありますか？', ['name' => 'is_read', 'type' => 'radio', 'options' => $isRead]) ?>
             <?= $this->Form->control('あなたの性別', ['name' => 'answerer_gender_code', 'type' => 'select', 'options' => $genders]) ?>
             <?= $this->Form->control('他に読んだことがある夏目漱石の作品は？', ['name' => 'know_trigger', 'type' => 'select', 'options' => $bookName]) ?>

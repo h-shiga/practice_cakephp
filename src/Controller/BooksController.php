@@ -157,7 +157,7 @@ class BooksController extends AppController
             'Creators',
         ]];
         $books = $this->paginate($this->Books->find());
-        $bookIntroductions = $books->last();
+        $bookIntroductions = $books->toArray()[4];
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
