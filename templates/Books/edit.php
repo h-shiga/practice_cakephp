@@ -1,36 +1,34 @@
 <?php
+
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Book $book
+ * @var object $book
+ * @var array $bookCategories
+ * @var array $creators
+ * @var array $countries
  */
 ?>
-<div class="row">
-    <aside class="column">
-        <div class="side-nav">
-            <h4 class="heading"><?= __('Actions') ?></h4>
-            <?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $book->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $book->id), 'class' => 'side-nav-item']
-            ) ?>
-            <?= $this->Html->link(__('List Books'), ['action' => 'index'], ['class' => 'side-nav-item']) ?>
-        </div>
-    </aside>
-    <div class="column-responsive column-80">
+<html>
+
+<body>
+    <header id="title">
+        <h1>本編集画面</h1>
+        <?= $this->Html->link('本一覧画面へ', ['action' => 'index']) ?>
+    </header>
+    <div class="content">
         <div class="books form content">
             <?= $this->Form->create($book) ?>
             <fieldset>
-                <legend><?= __('Edit Book') ?></legend>
-                <?php
-                    echo $this->Form->control('name');
-                    echo $this->Form->control('book_category_id', ['options' => $bookCategories]);
-                    echo $this->Form->control('creator_id', ['options' => $creators]);
-                    echo $this->Form->control('publication_date', ['empty' => true]);
-                    echo $this->Form->control('country_code');
-                ?>
+                <?= $this->Form->control('name'); ?>
+                <?= $this->Form->control('book_category_id', ['options' => $bookCategories]); ?>
+                <?= $this->Form->control('creator_id', ['options' => $creators]); ?>
+                <?= $this->Form->control('publication_date', ['empty' => true]); ?>
+                <?= $this->Form->control('country_code', ['options' => $countries]); ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>
-</div>
+</body>
+
+</html>

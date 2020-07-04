@@ -19,7 +19,8 @@ class BooksController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
-        $this->Genders = TableRegistry::get('genders');
+        $this->Genders = TableRegistry::getTableLocator()->get('genders');
+        $this->Questionnaires = TableRegistry::getTableLocator()->get('questionnaires');
     }
 
     /**
@@ -57,14 +58,13 @@ class BooksController extends AppController
         ]];
         $books = $this->paginate($this->Books->find());
         $bookIntroductions = $books->first();
-        $genders = $this->Genders->find();
         $before = [];
         $after = [];
         foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+        $this->set(compact('books', 'before', 'after', 'bookIntroductions',));
     }
 
     /**
@@ -158,9 +158,24 @@ class BooksController extends AppController
 
     public function questionnaire()
     {
-        $this->paginate = ['contain' => ['QuestionaireReadRelationalBooks' => ['Questionnaires' => ['Genders'],],]];
-        $books = $this->paginate($this->Books);
-        $this->set(compact('books'));
+        $questionnaires = $this->Questionnaires->newEmptyEntity();
+        $genders = $this->Genders->find('list');
+        $bookName = $this->Books->find('list');
+        $isRead = ['0' => 'はい', '1' => 'いいえ'];
+        if ($this->request->is('post')) {
+            $questionnaires = $this->Questionnaires->patchEntity($questionnaires, $this->request->getData());
+            debug($questionnaires);
+
+            $questionnaires->id = 1;
+
+            if ($this->Questionnaires->save($questionnaires)) {
+                $this->Flash->success(__('Your article has been saved.'));
+                $this->Flash->success($questionnaires);
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('Unable to add your article.'));
+        }
+        $this->set(compact('questionnaires', 'genders', 'bookName', 'isRead'));
     }
 
     /**
@@ -188,7 +203,8 @@ class BooksController extends AppController
     {
         $book = $this->Books->newEmptyEntity();
         if ($this->request->is('post')) {
-            $book = $this->Books->patchEntity($book, $this->request->getData());
+            $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
+            debug($book);
             if ($this->Books->save($book)) {
                 $this->Flash->success(__('The book has been saved.'));
 
@@ -198,7 +214,8 @@ class BooksController extends AppController
         }
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
-        $this->set(compact('book', 'bookCategories', 'creators'));
+        $countries = $this->Books->Countries->find('list', ['limit' => 200]);
+        $this->set(compact('book', 'bookCategories', 'creators', 'countries',));
     }
 
     /**
@@ -224,7 +241,8 @@ class BooksController extends AppController
         }
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
-        $this->set(compact('book', 'bookCategories', 'creators'));
+        $countries = $this->Books->Countries->find('list', ['limit' => 200]);
+        $this->set(compact('book', 'bookCategories', 'creators', 'countries',));
     }
 
     /**

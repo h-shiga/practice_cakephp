@@ -42,9 +42,7 @@ class BooksTable extends Table
         $this->belongsTo('Creators', [
             'foreignKey' => 'creator_id',
         ]);
-        $this->hasMany('BookBeginTexts', [
-            'foreignKey' => 'id',
-        ]);
+        $this->hasOne('BookBeginTexts');
         $this->hasMany('BookCharacters', [
             'foreignKey' => 'book_id',
         ]);

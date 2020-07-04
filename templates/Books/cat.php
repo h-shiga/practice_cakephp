@@ -50,24 +50,8 @@
             <?= $this->Html->image('book-cover-' . $bookIntroductions->id . '.jpg'); ?>
         </div>
         <div class="content-cohesive" id="questionnaire">
-            <?= $this->Form->create($books, ['url' => ['action' => 'questionnaire']]) ?>
             <h3>アンケート</h3>
-            <?= $this->Form->label('感想') ?>
-            <?= $this->Form->textarea('impression') ?>
-            <?= $this->Form->label('読んだことはありますか？') ?>
-            <?= $this->Form->radio('read_question', ['はい', 'いいえ'], ['value' => 0]) ?>
-            <?= $this->Form->label('あなたの性別') ?>
-            <select name="sex">
-                <?php foreach ($genders as $gender) : ?>
-                    <option value=<?= $gender->code ?>><?= $gender->name ?></option>
-                <?php endforeach; ?></select>
-            <?= $this->Form->label('他に読んだことがある夏目漱石の作品は？') ?>
-            <select name="other_read" multiple size="3">
-                <?php foreach ($books as $book) : ?>
-                    <option value=<?= $book->name ?>><?= $book->name ?></option>
-                <?php endforeach; ?></select>
-            <?= $this->Form->submit('アンケートを送信') ?>
-            <?= $this->Form->end() ?>
+            <?= $this->Html->link('アンケート画面へ', '/books/questionnaire') ?>
         </div>
     </div>
 
