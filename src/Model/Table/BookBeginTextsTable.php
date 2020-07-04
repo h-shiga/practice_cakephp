@@ -45,12 +45,10 @@ class BookBeginTextsTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Books', [
+        $this->hasOne('Books', [
             'foreignKey' => 'book_id',
         ]);
-        $this->hasMany('BookBeginTextRubies', [
-            'foreignKey' => 'book_begin_text_id',
-        ]);
+        $this->hasMany('BookBeginTextRubies');
     }
 
     /**

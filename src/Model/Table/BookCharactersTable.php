@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -45,7 +46,6 @@ class BookCharactersTable extends Table
 
         $this->belongsTo('Books', [
             'foreignKey' => 'book_id',
-            'joinType' => 'INNER',
         ]);
     }
 

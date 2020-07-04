@@ -42,9 +42,7 @@ class CountriesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('code');
 
-        $this->hasMany('Books', [
-            'foreignKey' => 'country_code',
-        ]);
+        $this->hasMany('Books');
     }
 
     /**

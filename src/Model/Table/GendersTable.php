@@ -42,9 +42,7 @@ class GendersTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('code');
 
-        $this->hasMany('Questionnaires', [
-            'foreignKey' => 'answerer_gender_code',
-        ]);
+        $this->hasMany('Questionnaires');
     }
 
     /**

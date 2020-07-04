@@ -4,27 +4,15 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
  * Questionnaires Model
- *
- * @method \App\Model\Entity\Questionnaire newEmptyEntity()
- * @method \App\Model\Entity\Questionnaire newEntity(array $data, array $options = [])
- * @method \App\Model\Entity\Questionnaire[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Questionnaire get($primaryKey, $options = [])
- * @method \App\Model\Entity\Questionnaire findOrCreate($search, ?callable $callback = null, $options = [])
- * @method \App\Model\Entity\Questionnaire patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Questionnaire[] patchEntities(iterable $entities, array $data, array $options = [])
- * @method \App\Model\Entity\Questionnaire|false save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Questionnaire saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Questionnaire[]|\Cake\Datasource\ResultSetInterface|false saveMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Questionnaire[]|\Cake\Datasource\ResultSetInterface saveManyOrFail(iterable $entities, $options = [])
- * @method \App\Model\Entity\Questionnaire[]|\Cake\Datasource\ResultSetInterface|false deleteMany(iterable $entities, $options = [])
- * @method \App\Model\Entity\Questionnaire[]|\Cake\Datasource\ResultSetInterface deleteManyOrFail(iterable $entities, $options = [])
+ * @property \App\Model\Table\QuestionaireReadRelationalBooksTable&\Cake\ORM\Association\HasMany $QuestionaireReadRelationalBooks
+ * @property \App\Model\Table\BooksTable&\Cake\ORM\Association\BelongsTo $Books
+ * @property \App\Model\Table\GendersTable&\Cake\ORM\Association\BelongsTo $Genders
  */
 class QuestionnairesTable extends Table
 {
@@ -42,10 +30,10 @@ class QuestionnairesTable extends Table
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('QuestionaireReadRelationalBooks', [
-            'foreignKey' => 'questionaire_id',
+        $this->hasMany('QuestionaireReadRelationalBooks');
+        $this->belongsTo('Books', [
+            'foreignKey' => 'book_id',
         ]);
-
         $this->belongsTo('Genders', [
             'foreignKey' => 'answerer_gender_code',
         ]);
@@ -83,5 +71,20 @@ class QuestionnairesTable extends Table
             ->allowEmptyString('answerer_gender_code');
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules): RulesChecker
+    {
+        $rules->add($rules->existsIn(['book_id'], 'Books'));
+        $rules->add($rules->existsIn(['answerer_gender_code'], 'Genders'));
+
+        return $rules;
     }
 }

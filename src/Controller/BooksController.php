@@ -20,7 +20,7 @@ class BooksController extends AppController
         parent::initialize();
         $this->loadComponent('Paginator');
         $this->Genders = TableRegistry::getTableLocator()->get('genders');
-        $this->Questionnaires = TableRegistry::getTableLocator()->get('questionnaires');
+        $this->Questions = TableRegistry::getTableLocator()->get('questionnaires');
     }
 
     /**
@@ -60,11 +60,24 @@ class BooksController extends AppController
         $bookIntroductions = $books->first();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'before', 'after', 'bookIntroductions',));
+        $questions = $this->Questions->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $questions = $this->Questions->patchEntity($questions, $this->request->getData());
+
+            if ($this->Questions->save($questions)) {
+                $this->Flash->success(__('ご協力ありがとうございました。'));
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error(__('登録ができませんでした。'));
+        }
+        $isRead = ['0' => 'はい', '1' => 'いいえ'];
+        $genders = $this->Genders->find('list', ['limit' => 200]);
+        $bookName = $this->Books->find('list', ['limit' => 200]);
+        $this->set(compact('books', 'before', 'after', 'bookIntroductions', 'questions', 'isRead', 'genders', 'bookName',));
     }
 
     /**
@@ -86,7 +99,7 @@ class BooksController extends AppController
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
@@ -107,7 +120,7 @@ class BooksController extends AppController
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
@@ -128,7 +141,7 @@ class BooksController extends AppController
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
@@ -149,7 +162,7 @@ class BooksController extends AppController
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_texts[0]->book_begin_text_rubies as $book) {
+        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
@@ -158,24 +171,31 @@ class BooksController extends AppController
 
     public function questionnaire()
     {
-        $questionnaires = $this->Questionnaires->newEmptyEntity();
-        $genders = $this->Genders->find('list');
-        $bookName = $this->Books->find('list');
-        $isRead = ['0' => 'はい', '1' => 'いいえ'];
+        $questions = $this->Questions->find();
+        $books = $this->Books->find();
+        $this->set(compact('questions', 'books'));
+    }
+
+    /**
+     * Add method
+     *
+     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
+     */
+    public function add()
+    {
+        $book = $this->Books->newEmptyEntity();
         if ($this->request->is('post')) {
-            $questionnaires = $this->Questionnaires->patchEntity($questionnaires, $this->request->getData());
-            debug($questionnaires);
-
-            $questionnaires->id = 1;
-
-            if ($this->Questionnaires->save($questionnaires)) {
-                $this->Flash->success(__('Your article has been saved.'));
-                $this->Flash->success($questionnaires);
+            $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
+            if ($this->Books->save($book)) {
+                $this->Flash->success(__('本の登録が完了しました。'));
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Unable to add your article.'));
+            $this->Flash->error(__('登録ができませんでした。'));
         }
-        $this->set(compact('questionnaires', 'genders', 'bookName', 'isRead'));
+        $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
+        $creators = $this->Books->Creators->find('list', ['limit' => 200]);
+        $countries = $this->Books->Countries->find('list', ['limit' => 200]);
+        $this->set(compact('book', 'bookCategories', 'creators', 'countries',));
     }
 
     /**
@@ -195,30 +215,6 @@ class BooksController extends AppController
     }
 
     /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $book = $this->Books->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
-            debug($book);
-            if ($this->Books->save($book)) {
-                $this->Flash->success(__('The book has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The book could not be saved. Please, try again.'));
-        }
-        $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
-        $creators = $this->Books->Creators->find('list', ['limit' => 200]);
-        $countries = $this->Books->Countries->find('list', ['limit' => 200]);
-        $this->set(compact('book', 'bookCategories', 'creators', 'countries',));
-    }
-
-    /**
      * Edit method
      *
      * @param string|null $id Book id.
@@ -233,11 +229,11 @@ class BooksController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
             if ($this->Books->save($book)) {
-                $this->Flash->success(__('The book has been saved.'));
+                $this->Flash->success(__('編集が完了しました。'));
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('The book could not be saved. Please, try again.'));
+            $this->Flash->error(__('編集ができませんでした。'));
         }
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
@@ -255,13 +251,13 @@ class BooksController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $book = $this->Books->get($id);
-        if ($this->Books->delete($book)) {
-            $this->Flash->success(__('The book has been deleted.'));
+        $question = $this->Questions->get($id);
+        if ($this->Questions->delete($question)) {
+            $this->Flash->success(__('削除が完了しました。'));
         } else {
-            $this->Flash->error(__('The book could not be deleted. Please, try again.'));
+            $this->Flash->error(__('削除できませんでした。'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'questionnaire']);
     }
 }

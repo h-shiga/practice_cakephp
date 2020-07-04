@@ -43,9 +43,7 @@ class CreatorsTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Books', [
-            'foreignKey' => 'creator_id',
-        ]);
+        $this->hasMany('Books');
     }
 
     /**

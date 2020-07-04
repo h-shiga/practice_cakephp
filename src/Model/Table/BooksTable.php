@@ -43,12 +43,9 @@ class BooksTable extends Table
             'foreignKey' => 'creator_id',
         ]);
         $this->hasOne('BookBeginTexts');
-        $this->hasMany('BookCharacters', [
-            'foreignKey' => 'book_id',
-        ]);
-        $this->hasMany('QuestionaireReadRelationalBooks', [
-            'foreignKey' => 'book_id',
-        ]);
+        $this->hasMany('BookCharacters');
+        $this->hasMany('QuestionaireReadRelationalBooks');
+        $this->hasMany('Questionnaires');
     }
 
     /**
@@ -71,7 +68,8 @@ class BooksTable extends Table
 
         $validator
             ->date('publication_date')
-            ->allowEmptyDate('publication_date');
+            ->allowEmptyDate('publication_date')
+            ->notBlank('publication_date');
 
         $validator
             ->scalar('country_code')
