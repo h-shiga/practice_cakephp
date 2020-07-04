@@ -3,9 +3,6 @@
 /**
  * @var \App\View\AppView $this
  * @var object $questions
- * @var array $bookName
- * @var array $isRead
- * @var array $genders
  */
 ?>
 
@@ -22,10 +19,10 @@
             <?php foreach ($questions as $question) : ?>
                 <tr>
                     <td><?= $question->id ?></td>
-                    <td><?= $question->book_id ?></td>
+                    <td><?= $question->book_name ?></td>
                     <td><?= $question->impression ?></td>
-                    <td><?= $question->is_read ?></td>
-                    <td><?= $question->answerer_gender_code ?></td>
+                    <td><?= $question->is_read == 1 ? 'はい' : 'いいえ' ?></td>
+                    <td><?= $question->answerer_gender_code == 'M' ? '男性' : '女性' ?></td>
                     <td><?= $question->know_trigger ?></td>
                     <td>
                         <?= $this->Form->postLink('削除', ['action' => 'delete', $question->id], ['confirm' => 'よろしいですか?']) ?>

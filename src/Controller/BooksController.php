@@ -56,11 +56,10 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
-        $books = $this->paginate($this->Books->find());
-        $bookIntroductions = $books->first();
+        $books = $this->paginate($this->Books->find())->first();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
+        foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
@@ -69,15 +68,15 @@ class BooksController extends AppController
             $questions = $this->Questions->patchEntity($questions, $this->request->getData());
 
             if ($this->Questions->save($questions)) {
-                $this->Flash->success(__('ご協力ありがとうございました。'));
+                $this->Flash->success('ご協力ありがとうございました。');
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('登録ができませんでした。'));
+            $this->Flash->error('登録ができませんでした。');
         }
-        $isRead = ['0' => 'はい', '1' => 'いいえ'];
+        $isRead = ['1' => 'はい', '0' => 'いいえ'];
         $genders = $this->Genders->find('list', ['limit' => 200]);
-        $bookName = $this->Books->find('list', ['limit' => 200]);
-        $this->set(compact('books', 'before', 'after', 'bookIntroductions', 'questions', 'isRead', 'genders', 'bookName',));
+        $bookName = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
+        $this->set(compact('books', 'before', 'after', 'questions', 'isRead', 'genders', 'bookName',));
     }
 
     /**
@@ -172,7 +171,7 @@ class BooksController extends AppController
     public function questionnaire()
     {
         $questions = $this->Questions->find();
-        $books = $this->Books->find();
+        $books = $this->Books->find('list');
         $this->set(compact('questions', 'books'));
     }
 
@@ -187,10 +186,10 @@ class BooksController extends AppController
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
             if ($this->Books->save($book)) {
-                $this->Flash->success(__('本の登録が完了しました。'));
+                $this->Flash->success('本の登録が完了しました。');
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('登録ができませんでした。'));
+            $this->Flash->error('登録ができませんでした。');
         }
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
@@ -229,11 +228,11 @@ class BooksController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
             if ($this->Books->save($book)) {
-                $this->Flash->success(__('編集が完了しました。'));
+                $this->Flash->success('編集が完了しました。');
 
                 return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('編集ができませんでした。'));
+            $this->Flash->error('編集ができませんでした。');
         }
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
@@ -253,9 +252,9 @@ class BooksController extends AppController
         $this->request->allowMethod(['post', 'delete']);
         $question = $this->Questions->get($id);
         if ($this->Questions->delete($question)) {
-            $this->Flash->success(__('削除が完了しました。'));
+            $this->Flash->success('削除が完了しました。');
         } else {
-            $this->Flash->error(__('削除できませんでした。'));
+            $this->Flash->error('削除できませんでした。');
         }
 
         return $this->redirect(['action' => 'questionnaire']);
