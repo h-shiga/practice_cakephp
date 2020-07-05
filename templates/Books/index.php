@@ -8,6 +8,9 @@
 ?>
 <?= $this->Html->script('jquery-3.5.1.min.js') ?>
 <?= $this->Html->script('jquery-cakephp.js') ?>
+<?= $this->Html->script('http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js') ?>
+<?= $this->Html->script('http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js') ?>
+<?= $this->Html->css('http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css') ?>
 
 <html>
 
@@ -18,7 +21,7 @@
     <?= $this->Html->link('本の登録', ['action' => 'add']) ?>
     <?= $this->Form->create() ?>
     <fieldset>
-        <?= $this->Form->control('検索（タイトルまたは発行日）', ['name' => 'find', 'placeholder' => 'このまま検索すると全て表示されます。']); ?>
+        <?= $this->Form->control('検索（タイトルまたは発行日）', ['name' => 'find', 'id' => 'datepicker', 'placeholder' => 'このまま検索すると全て表示されます。']); ?>
         <?= $this->Form->button('検索') ?>
         <?= $this->Form->end() ?>
     </fieldset>

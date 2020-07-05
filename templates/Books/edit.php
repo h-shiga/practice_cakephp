@@ -8,6 +8,7 @@
  * @var array $countries
  */
 ?>
+
 <html>
 
 <body>
@@ -22,7 +23,7 @@
                 <?= $this->Form->control('name'); ?>
                 <?= $this->Form->control('book_category_id', ['options' => $bookCategories]); ?>
                 <?= $this->Form->control('creator_id', ['options' => $creators]); ?>
-                <?= $this->Form->control('publication_date', ['empty' => true]); ?>
+                <?= $this->Form->control('publication_date', ['empty' => true]) ?>
                 <?= $this->Form->control('country_code', ['options' => $countries]); ?>
                 <?= $this->Form->control('english_name', ['name' => 'e_name']) ?>
                 <?= $this->Form->control('image', ['type' => 'file']) ?>

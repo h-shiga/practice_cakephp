@@ -37,8 +37,8 @@
             <h4>登場人物</h4>
             <div>
                 <ul class="character">
-                    <?php foreach ($books->book_characters as $book) : ?>
-                        <?= $book->name ?>
+                    <?php foreach ($books->book_characters as $character) : ?>
+                        <?= $character->name ?>
                     <?php endforeach; ?>
                 </ul>
                 <?= $this->Html->link('青空文庫', 'https://www.aozora.gr.jp/cards/000148/files/789_14547.html') ?>
