@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -15,12 +14,16 @@ use Cake\ORM\Entity;
  * @property int $creator_id
  * @property \Cake\I18n\FrozenDate|null $publication_date
  * @property string|null $country_code
+ * @property string|null $e_name
+ * @property string|null $image
  *
  * @property \App\Model\Entity\BookCategory $book_category
+ * @property \App\Model\Entity\Country $country
  * @property \App\Model\Entity\Creator $creator
- * @property \App\Model\Entity\BookBeginText[] $book_begin_texts
+ * @property \App\Model\Entity\BookBeginText $book_begin_text
  * @property \App\Model\Entity\BookCharacter[] $book_characters
  * @property \App\Model\Entity\QuestionaireReadRelationalBook[] $questionaire_read_relational_books
+ * @property \App\Model\Entity\Questionnaire[] $questionnaires
  */
 class Book extends Entity
 {
@@ -34,16 +37,20 @@ class Book extends Entity
      * @var array
      */
     protected $_accessible = [
+        'id' => true,
         'name' => true,
         'book_category_id' => true,
         'creator_id' => true,
         'publication_date' => true,
         'country_code' => true,
-        'book_category' => true,
-        'creator' => true,
         'e_name' => true,
-        'book_begin_texts' => true,
+        'image' => true,
+        'book_category' => true,
+        'country' => true,
+        'creator' => true,
+        'book_begin_text' => true,
         'book_characters' => true,
         'questionaire_read_relational_books' => true,
+        'questionnaires' => true,
     ];
 }

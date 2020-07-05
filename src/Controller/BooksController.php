@@ -93,16 +93,15 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
-        $books = $this->paginate($this->Books->find());
-        $bookIntroductions = $books->toArray()[1];
+        $books = $this->paginate($this->Books->find())->toArray()[1];
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
+        foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+        $this->set(compact('books', 'genders', 'before', 'after',));
     }
 
     public function heart()
@@ -114,16 +113,15 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
-        $books = $this->paginate($this->Books->find());
-        $bookIntroductions = $books->toArray()[2];
+        $books = $this->paginate($this->Books->find())->toArray()[2];
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
+        foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+        $this->set(compact('books', 'genders', 'before', 'after',));
     }
 
     public function daisies()
@@ -135,16 +133,15 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
-        $books = $this->paginate($this->Books->find());
-        $bookIntroductions = $books->toArray()[3];
+        $books = $this->paginate($this->Books->find())->toArray()[3];
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
+        foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+        $this->set(compact('books', 'genders', 'before', 'after',));
     }
 
     public function lemon()
@@ -156,16 +153,15 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
-        $books = $this->paginate($this->Books->find());
-        $bookIntroductions = $books->toArray()[4];
+        $books = $this->paginate($this->Books->find())->toArray()[4];
         $genders = $this->Genders->find();
         $before = [];
         $after = [];
-        foreach ($bookIntroductions->book_begin_text->book_begin_text_rubies as $book) {
+        foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after', 'bookIntroductions'));
+        $this->set(compact('books', 'genders', 'before', 'after',));
     }
 
     public function questionnaire()
@@ -191,6 +187,7 @@ class BooksController extends AppController
             }
             $this->Flash->error('登録ができませんでした。');
         }
+        debug($book);
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
         $countries = $this->Books->Countries->find('list', ['limit' => 200]);
@@ -250,13 +247,13 @@ class BooksController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $question = $this->Questions->get($id);
-        if ($this->Questions->delete($question)) {
+        $books = $this->Books->get($id);
+        if ($this->Books->delete($books)) {
             $this->Flash->success('削除が完了しました。');
         } else {
             $this->Flash->error('削除できませんでした。');
         }
 
-        return $this->redirect(['action' => 'questionnaire']);
+        return $this->redirect(['action' => 'index']);
     }
 }

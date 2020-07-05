@@ -80,6 +80,12 @@ class BooksTable extends Table
             ->scalar('e_name')
             ->maxLength('e_name', 50);
 
+        $validator
+            ->scalar('image')
+            ->maxLength('image', 255)
+            ->requirePresence('image', 'create')
+            ->notEmptyFile('image');
+
         return $validator;
     }
 
