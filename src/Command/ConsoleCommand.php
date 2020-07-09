@@ -37,6 +37,7 @@ class ConsoleCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
+        
         if (!class_exists('Psy\Shell')) {
             $io->err('<error>Unable to load Psy\Shell.</error>');
             $io->err('');
