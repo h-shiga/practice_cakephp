@@ -28,7 +28,6 @@ use Psy\Shell as PsyShell;
  */
 class ConsoleCommand extends Command
 {
-    
     /**
      * Start the Command and interactive console.
      *
