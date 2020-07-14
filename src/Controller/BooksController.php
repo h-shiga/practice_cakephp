@@ -182,7 +182,7 @@ class BooksController extends AppController
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
             $file = $this->request->getData('image');
-            $filePath = '../webroot/img/' . date("YmdHis") . $file->getClientFilename();
+            $filePath = '../webroot/img/' . date('YmdHis') . $file->getClientFilename();
             $file->moveTo($filePath);
             $book->name = $this->request->getData('name');
             $book->image = date("YmdHis") . $file->getClientFilename();
@@ -227,7 +227,7 @@ class BooksController extends AppController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
             $file = $this->request->getData('image');
-            $filePath = '../webroot/img/' . date("YmdHis") . $file->getClientFilename();
+            $filePath = '../webroot/img/' . date('YmdHis') . $file->getClientFilename();
             $file->moveTo($filePath);
             $book->name = $this->request->getData('name');
             $book->image = date("YmdHis") . $file->getClientFilename();
