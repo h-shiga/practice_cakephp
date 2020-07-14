@@ -27,10 +27,12 @@ class BooksTableTest extends TestCase
     protected $fixtures = [
         'app.Books',
         'app.BookCategories',
+        'app.Countries',
         'app.Creators',
         'app.BookBeginTexts',
         'app.BookCharacters',
         'app.QuestionaireReadRelationalBooks',
+        'app.Questionnaires',
     ];
 
     /**

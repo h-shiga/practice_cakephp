@@ -46,7 +46,7 @@ class PagesController extends AppController
     public function display(...$path): ?Response
     {
         if (!$path) {
-            return $this->redirect('/');
+            return $this->redirect('/books');
         }
         if (in_array('..', $path, true) || in_array('.', $path, true)) {
             throw new ForbiddenException();

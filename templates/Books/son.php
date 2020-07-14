@@ -2,11 +2,10 @@
 
 /**
  * @var \App\View\AppView $this
- * @var array $books
+ * @var object $books
  * @var array $before
  * @var array $after
  * @var array $genders
- * @var object $bookIntroductions
  */
 
 ?>
@@ -19,40 +18,40 @@
     </header>
     <div class="content">
         <div class="content-cohesive" id="introduction">
-            <h2><?= $bookIntroductions->name ?></h2>
-            <h3><?= preg_replace($before, $after, $bookIntroductions->book_begin_text->begin_text, 1) ?></h3>
+            <h2><?= $books->name ?></h2>
+            <h3><?= preg_replace($before, $after, $books->book_begin_text->begin_text, 1) ?></h3>
         </div>
         <div class="content-cohesive" id="information">
             <table class="content-table">
                 <h3>情報</h3>
                 <?= $this->Html->tableHeaders(['区分', '内容'], ['class' => 'content-table-information']),
                     $this->Html->tableCells([
-                        ['著者', $bookIntroductions->creator->name],
-                        ['発行年月日', $bookIntroductions->publication_date->i18nFormat()],
+                        ['著者', $books->creator->name],
+                        ['発行年月日', $books->publication_date->i18nFormat()],
                         ['発行元', '服部書店'],
-                        ['ジャンル', $bookIntroductions->book_category->name],
-                        ['国', $bookIntroductions->country->name],
-                        ['言語', $bookIntroductions->country->name . '語'],
+                        ['ジャンル', $books->book_category->name],
+                        ['国', $books->country->name],
+                        ['言語', $books->country->name . '語'],
                     ]) ?>
             </table>
             <h4>登場人物</h4>
             <div>
                 <ul class="character">
-                    <?php foreach ($bookIntroductions->book_characters as $book) : ?>
+                    <?php foreach ($books->book_characters as $book) : ?>
                         <?= $book->name ?>
                     <?php endforeach; ?>
                 </ul>
-                <?= $this->Html->link('青空文庫', 'https://www.aozora.gr.jp/cards/000148/files/789_14547.html') ?>
+                <?= $this->Html->link('青空文庫', 'https://www.aozora.gr.jp/cards/000148/files/752_14964.html') ?>
             </div>
         </div>
         <div class="content-cohesive" id="cover">
             <h3>表紙</h3>
-            <?= $this->Html->image('book-cover-' . $bookIntroductions->id . '.jpg'); ?>
+            <?= $this->Html->image('book-cover-' . $books->id . '.jpg'); ?>
         </div>
         <div class="content-cohesive" id="questionnaire">
             <h3>アンケート</h3>
             <?= $this->Form->create($questions) ?>
-            <?= $this->Form->control('book_id', ['type' => 'hidden', 'value' => $bookIntroductions->id]) ?>
+            <?= $this->Form->control('book_id', ['type' => 'hidden', 'value' => $books->id]) ?>
             <?= $this->Form->control('感想', ['name' => 'impression',]) ?>
             <?= $this->Form->control('読んだことはありますか？', ['name' => 'is_read', 'type' => 'radio', 'options' => $isRead]) ?>
             <?= $this->Form->control('あなたの性別', ['name' => 'answerer_gender_code', 'type' => 'select', 'options' => $genders]) ?>
