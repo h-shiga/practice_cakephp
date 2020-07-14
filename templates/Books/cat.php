@@ -20,7 +20,7 @@
     <div class="content">
         <div class="content-cohesive" id="introduction">
             <h2><?= $bookIntroductions->name ?></h2>
-            <h3><?= preg_replace($before, $after, $bookIntroductions->book_begin_texts[0]->begin_text, 1) ?></h3>
+            <h3><?= preg_replace($before, $after, $bookIntroductions->book_begin_text->begin_text, 1) ?></h3>
         </div>
         <div class="content-cohesive" id="information">
             <table class="content-table">
@@ -51,7 +51,14 @@
         </div>
         <div class="content-cohesive" id="questionnaire">
             <h3>アンケート</h3>
-            <?= $this->Html->link('アンケート画面へ', '/books/questionnaire') ?>
+            <?= $this->Form->create($questions) ?>
+            <?= $this->Form->control('book_id', ['type' => 'hidden', 'value' => $bookIntroductions->id]) ?>
+            <?= $this->Form->control('感想', ['name' => 'impression',]) ?>
+            <?= $this->Form->control('読んだことはありますか？', ['name' => 'is_read', 'type' => 'radio', 'options' => $isRead]) ?>
+            <?= $this->Form->control('あなたの性別', ['name' => 'answerer_gender_code', 'type' => 'select', 'options' => $genders]) ?>
+            <?= $this->Form->control('他に読んだことがある夏目漱石の作品は？', ['name' => 'know_trigger', 'type' => 'select', 'options' => $bookName]) ?>
+            <?= $this->Form->submit('アンケートを送信') ?>
+            <?= $this->Form->end() ?>
         </div>
     </div>
 

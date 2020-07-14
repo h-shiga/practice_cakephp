@@ -27,7 +27,7 @@
                 <?= $this->Form->control('country_code', ['options' => $countries]) ?>
                 <?= $this->Form->control('english_name', ['name' => 'e_name']); ?>
             </fieldset>
-            <?= $this->Form->button(__('Submit')) ?>
+            <?= $this->Form->button(__('登録')) ?>
             <?= $this->Form->end() ?>
         </div>
     </div>

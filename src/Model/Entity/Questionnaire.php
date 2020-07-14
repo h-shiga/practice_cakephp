@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Entity;
@@ -13,6 +14,7 @@ use Cake\ORM\Entity;
  * @property bool $is_read
  * @property string $know_trigger
  * @property string|null $answerer_gender_code
+ * 
  */
 class Questionnaire extends Entity
 {
@@ -30,5 +32,6 @@ class Questionnaire extends Entity
         'is_read' => true,
         'know_trigger' => true,
         'answerer_gender_code' => true,
+        'book_id' => true,
     ];
 }

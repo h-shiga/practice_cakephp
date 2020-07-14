@@ -31,7 +31,6 @@
                     <td><?= $book->publication_date->i18nFormat() ?></td>
                     <td>
                         <?= $this->Html->link('編集', ['action' => 'edit', $book->id]) ?>
-                        <?= $this->Form->postLink('削除', ['action' => 'delete', $book->id], ['confirm' => 'よろしいですか?']) ?>
                     </td>
                 </tr>
             <?php endforeach; ?>

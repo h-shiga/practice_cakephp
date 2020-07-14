@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Model\Table;
@@ -43,9 +44,7 @@ class BookCategoriesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
-        $this->hasMany('Books', [
-            'foreignKey' => 'book_category_id',
-        ]);
+        $this->hasMany('Books');
     }
 
     /**

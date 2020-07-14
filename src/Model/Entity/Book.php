@@ -41,6 +41,7 @@ class Book extends Entity
         'country_code' => true,
         'book_category' => true,
         'creator' => true,
+        'e_name' => true,
         'book_begin_texts' => true,
         'book_characters' => true,
         'questionaire_read_relational_books' => true,
