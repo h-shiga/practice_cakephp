@@ -181,13 +181,17 @@ class BooksController extends AppController
         $book = $this->Books->newEmptyEntity();
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
+            $file = $this->request->getData('image');
+            $filePath = '../webroot/img/' . date("YmdHis") . $file->getClientFilename();
+            $file->moveTo($filePath);
+            $book->name = $this->request->getData('name');
+            $book->image = date("YmdHis") . $file->getClientFilename();
             if ($this->Books->save($book)) {
                 $this->Flash->success('本の登録が完了しました。');
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error('登録ができませんでした。');
         }
-        debug($book);
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
         $countries = $this->Books->Countries->find('list', ['limit' => 200]);
@@ -219,11 +223,14 @@ class BooksController extends AppController
      */
     public function edit($id = null)
     {
-        $book = $this->Books->get($id, [
-            'contain' => [],
-        ]);
+        $book = $this->Books->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
+            $file = $this->request->getData('image');
+            $filePath = '../webroot/img/' . date("YmdHis") . $file->getClientFilename();
+            $file->moveTo($filePath);
+            $book->name = $this->request->getData('name');
+            $book->image = date("YmdHis") . $file->getClientFilename();
             if ($this->Books->save($book)) {
                 $this->Flash->success('編集が完了しました。');
 

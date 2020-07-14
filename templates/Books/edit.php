@@ -25,14 +25,10 @@
                 <?= $this->Form->control('creator_id', ['options' => $creators]); ?>
                 <?= $this->Form->control('publication_date', ['empty' => true]) ?>
                 <?= $this->Form->control('country_code', ['options' => $countries]); ?>
-                <?= $this->Form->control('english_name', ['name' => 'e_name']) ?>
                 <?= $this->Form->control('image', ['type' => 'file']) ?>
             </fieldset>
             <?= $this->Form->button(__('Submit')) ?>
             <?= $this->Form->end() ?>
-        </div>
-        <div id="cover" class="content-cohesive">
-            <?= $this->Html->image('book-cover-' . $book->id . '.jpg'); ?>
         </div>
     </div>
 </body>

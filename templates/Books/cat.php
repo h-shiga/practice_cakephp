@@ -46,7 +46,7 @@
         </div>
         <div class="content-cohesive" id="cover">
             <h3>表紙</h3>
-            <?= $this->Html->image('book-cover-' . $books->id . '.jpg'); ?>
+            <?= $this->Html->image($books->image)?>
         </div>
         <div class="content-cohesive" id="questionnaire">
             <h3>アンケート</h3>
