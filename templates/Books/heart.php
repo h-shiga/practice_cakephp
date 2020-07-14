@@ -2,10 +2,11 @@
 
 /**
  * @var \App\View\AppView $this
+ * @var object $books
  * @var array $before
  * @var array $after
- * @var array $genders
- * @var object $books
+ * @var array $questions
+ * @var array $bookLists
  */
 
 ?>
@@ -52,10 +53,11 @@
             <h3>アンケート</h3>
             <?= $this->Form->create($questions) ?>
             <?= $this->Form->control('book_id', ['type' => 'hidden', 'value' => $books->id]) ?>
-            <?= $this->Form->control('感想', ['name' => 'impression',]) ?>
-            <?= $this->Form->control('読んだことはありますか？', ['name' => 'is_read', 'type' => 'radio', 'options' => $isRead]) ?>
-            <?= $this->Form->control('あなたの性別', ['name' => 'answerer_gender_code', 'type' => 'select', 'options' => $genders]) ?>
-            <?= $this->Form->control('他に読んだことがある夏目漱石の作品は？', ['name' => 'know_trigger', 'type' => 'select', 'options' => $bookName]) ?>
+            <?= $this->Form->control('book_name', ['type' => 'hidden', 'value' => $books->name]) ?>
+            <?= $this->Form->control('感想', ['name' => 'impression', 'type' => 'textarea']) ?>
+            <?= $this->Form->control('読んだことはありますか？', ['name' => 'is_read', 'type' => 'radio', 'options' => ['1' => 'はい', '0' => 'いいえ']]) ?>
+            <?= $this->Form->control('あなたの性別', ['name' => 'answerer_gender_code', 'type' => 'select', 'options' => ['F' => '女性', 'M' => '男性']]) ?>
+            <?= $this->Form->control('他に読んだことがある夏目漱石の作品は？', ['name' => 'know_trigger', 'type' => 'select', 'options' => $bookLists]) ?>
             <?= $this->Form->submit('アンケートを送信') ?>
             <?= $this->Form->end() ?>
         </div>

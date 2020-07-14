@@ -17,7 +17,7 @@
         <?= $this->Html->link('本一覧画面へ', ['action' => 'index']) ?>
     </header>
     <div class="content">
-        <div id="book-table" class="books form content content-cohesive">
+        <div class="books form content content-cohesive">
             <?= $this->Form->create($book, ['type' => 'file']) ?>
             <fieldset>
                 <?= $this->Form->control('name'); ?>
