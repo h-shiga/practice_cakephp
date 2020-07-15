@@ -19,7 +19,6 @@ class BooksController extends AppController
     {
         parent::initialize();
         $this->loadComponent('Paginator');
-        $this->Genders = TableRegistry::getTableLocator()->get('genders');
         $this->Questions = TableRegistry::getTableLocator()->get('questionnaires');
     }
 
@@ -56,27 +55,16 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
-        $books = $this->paginate($this->Books->find())->first();
+        $bookLists = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
+        $books = $this->paginate($this->Books->find())->toArray()[0];
         $before = [];
         $after = [];
         foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $questions = $this->Questions->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $questions = $this->Questions->patchEntity($questions, $this->request->getData());
-
-            if ($this->Questions->save($questions)) {
-                $this->Flash->success('ご協力ありがとうございました。');
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error('登録ができませんでした。');
-        }
-        $isRead = ['1' => 'はい', '0' => 'いいえ'];
-        $genders = $this->Genders->find('list', ['limit' => 200]);
-        $bookName = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
-        $this->set(compact('books', 'before', 'after', 'questions', 'isRead', 'genders', 'bookName',));
+        $this->set(compact('bookLists', 'books', 'before', 'after',));
+        $this->set('questions', $this->questions());
     }
 
     /**
@@ -93,15 +81,16 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
+        $bookLists = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
         $books = $this->paginate($this->Books->find())->toArray()[1];
-        $genders = $this->Genders->find();
         $before = [];
         $after = [];
         foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after',));
+        $this->set(compact('bookLists', 'books', 'before', 'after',));
+        $this->set('questions', $this->questions());
     }
 
     public function heart()
@@ -113,15 +102,16 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
+        $bookLists = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
         $books = $this->paginate($this->Books->find())->toArray()[2];
-        $genders = $this->Genders->find();
         $before = [];
         $after = [];
         foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after',));
+        $this->set(compact('bookLists', 'books', 'before', 'after',));
+        $this->set('questions', $this->questions());
     }
 
     public function daisies()
@@ -133,15 +123,16 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
+        $bookLists = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
         $books = $this->paginate($this->Books->find())->toArray()[3];
-        $genders = $this->Genders->find();
         $before = [];
         $after = [];
         foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after',));
+        $this->set(compact('bookLists', 'books', 'before', 'after',));
+        $this->set('questions', $this->questions());
     }
 
     public function lemon()
@@ -153,15 +144,16 @@ class BooksController extends AppController
             'Countries',
             'Creators',
         ]];
+        $bookLists = $this->Books->find('list', ['keyField' => 'name', 'limit' => 200]);
         $books = $this->paginate($this->Books->find())->toArray()[4];
-        $genders = $this->Genders->find();
         $before = [];
         $after = [];
         foreach ($books->book_begin_text->book_begin_text_rubies as $book) {
             array_push($before, '/※' . $book->code . '/');
             array_push($after, $book->ruby);
         }
-        $this->set(compact('books', 'genders', 'before', 'after',));
+        $this->set(compact('bookLists', 'books', 'before', 'after',));
+        $this->set('questions', $this->questions());
     }
 
     public function questionnaire()
@@ -181,13 +173,17 @@ class BooksController extends AppController
         $book = $this->Books->newEmptyEntity();
         if ($this->request->is('post')) {
             $book = $this->Books->patchEntity($book, $this->request->getData(), ['associated' => ['BookBeginTexts']]);
+            $file = $this->request->getData('image');
+            $filePath = '../webroot/img/' . date('YmdHis') . $file->getClientFilename();
+            $file->moveTo($filePath);
+            $book->name = $this->request->getData('name');
+            $book->image = date("YmdHis") . $file->getClientFilename();
             if ($this->Books->save($book)) {
                 $this->Flash->success('本の登録が完了しました。');
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error('登録ができませんでした。');
         }
-        debug($book);
         $bookCategories = $this->Books->BookCategories->find('list', ['limit' => 200]);
         $creators = $this->Books->Creators->find('list', ['limit' => 200]);
         $countries = $this->Books->Countries->find('list', ['limit' => 200]);
@@ -219,11 +215,14 @@ class BooksController extends AppController
      */
     public function edit($id = null)
     {
-        $book = $this->Books->get($id, [
-            'contain' => [],
-        ]);
+        $book = $this->Books->get($id);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $book = $this->Books->patchEntity($book, $this->request->getData());
+            $file = $this->request->getData('image');
+            $filePath = '../webroot/img/' . date('YmdHis') . $file->getClientFilename();
+            $file->moveTo($filePath);
+            $book->name = $this->request->getData('name');
+            $book->image = date("YmdHis") . $file->getClientFilename();
             if ($this->Books->save($book)) {
                 $this->Flash->success('編集が完了しました。');
 
@@ -247,13 +246,28 @@ class BooksController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $books = $this->Books->get($id);
-        if ($this->Books->delete($books)) {
+        $book = $this->Books->get($id);
+        if ($this->Books->delete($book)) {
             $this->Flash->success('削除が完了しました。');
         } else {
             $this->Flash->error('削除できませんでした。');
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    private function questions()
+    {
+        $questions = $this->Questions->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $questions = $this->Questions->patchEntity($questions, $this->request->getData());
+
+            if ($this->Questions->save($questions)) {
+                $this->Flash->success('ご協力ありがとうございました。');
+                return $this->redirect(['action' => 'index']);
+            }
+            $this->Flash->error('登録ができませんでした。');
+        }
+        return $questions;
     }
 }
